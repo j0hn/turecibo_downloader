@@ -18,9 +18,9 @@ requirements = [
     'tqdm>=4.26.0'
 ]
 
-setup_requirements = [ ]
+setup_requirements = []
 
-test_requirements = [ ]
+test_requirements = []
 
 setup(
     author="German Bourdin",
@@ -41,7 +41,7 @@ setup(
     description="Downloads documents from turecibo.com as PDF",
     entry_points={
         'console_scripts': [
-            'turecibo_downloader=turecibo_downloader.cli:main',
+            'turecibo_downloader=turecibo_downloader.cli:cli',
         ],
     },
     install_requires=requirements,

@@ -1,33 +1,37 @@
 # -*- coding: utf-8 -*-
-
 """Console script for turecibo_downloader."""
+
 import sys
 import click
 
-from .turecibo_downloader import DocumentDownloader
+from .turecibo_downloader import DocumentDownloader, FolderDownloader
 
-@click.argument('hash')
-@click.option(
-    '--output', '-o',
-    help='Where should the resulting pdf be saved to (default=output.pdf)'
-)
-@click.option(
-    '--pages', '-p',
-    help='How many pages does the original document have'
-)
-@click.command()
-def main(hash, pages=1, output='output.pdf'):
+
+@click.group()
+def cli():
+    pass
+
+
+@click.argument('doc_hash')
+@cli.command('by-hash')
+def by_hash(doc_hash):
     """
     Download and save the document identified by HASH. See details on how to get
-    hashes from turecibo.com files here:
-    https://github.com/gbourdin/turecibo_downloader/blob/master/README.rst
+    hashes from turecibo.com files on the README
     """
-    downloader = DocumentDownloader(
-        hash=hash, pages=int(pages), filename=output)
-    downloader.download()
-    
-    return 0
+    DocumentDownloader(doc_hash=doc_hash).download()
+
+
+@click.argument('cookie')
+@click.argument('folder')
+@cli.command('by-inbox')
+def by_inbox(cookie, folder):
+    """
+    Downloads and save the document identified by HASH.
+    See details on how to get the cookie and folder on the README
+    """
+    FolderDownloader(cookie, folder).download()
 
 
 if __name__ == "__main__":
-    sys.exit(main())  # pragma: no cover
+    sys.exit(cli())  # pragma: no cover
